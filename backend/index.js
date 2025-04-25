@@ -10,6 +10,10 @@ app.use(express.json());
 const productRoutes = require('./routes/products');
 app.use('/api/products', productRoutes);
 
+const mpesaRoutes = require('./routes/mpesa');
+app.use('/', mpesaRoutes); // or app.use('/api/mpesa', mpesaRoutes);
+
+
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))

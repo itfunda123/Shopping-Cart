@@ -3,9 +3,35 @@ import React from 'react';
 const Cart = ({ cartItems, removeFromCart }) => {
   const total = cartItems.reduce((acc, item) => acc + item.price, 0);
 
-  const handleCheckout = () => {
-    alert('Proceeding to checkout...');
-    // You can later redirect to a checkout page or trigger a payment process here
+  const handleCheckout = async () => {
+    const phone = prompt("Enter your phone number (format: 07XXXXXXXX):");
+
+    if (!phone) {
+      alert("Phone number is required to proceed.");
+      return;
+    }
+
+    const formattedPhone = phone.startsWith("254") ? phone : `254${phone.substring(1)}`;
+
+    try {
+      const response = await fetch('http://localhost:5000/stk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: formattedPhone, amount: total }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("STK Push sent! Check your phone to complete payment.");
+        // Optionally clear cart or redirect to thank you page
+      } else {
+        alert("Payment request failed: " + (data.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
