@@ -3,6 +3,11 @@ import React from 'react';
 const Cart = ({ cartItems, removeFromCart }) => {
   const total = cartItems.reduce((acc, item) => acc + item.price, 0);
 
+  const handleCheckout = () => {
+    alert('Proceeding to checkout...');
+    // You can later redirect to a checkout page or trigger a payment process here
+  };
+
   return (
     <div className="container">
       <h2 className="mb-4">Your Cart</h2>
@@ -34,6 +39,9 @@ const Cart = ({ cartItems, removeFromCart }) => {
             ))}
           </ul>
           <h4>Total: ${total.toFixed(2)}</h4>
+          <button className="btn btn-primary mt-3" onClick={handleCheckout}>
+            Checkout
+          </button>
         </>
       )}
     </div>
